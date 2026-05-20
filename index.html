@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matei Mirela-Larisa – Dirijor de Cor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #faf8f4;
+      --dark:    #1a1a1a;
+      --mid:     #4a4a4a;
+      --light:   #8a8a8a;
+      --accent:  #8b6f47;
+      --rule:    #e0d8cc;
+      --section: #f4f1ec;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250, 248, 244, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.03em;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HAMBURGER BUTTON ── */
+    .menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 200;
+    }
+
+    .menu-btn span {
+      display: block;
+      height: 1.5px;
+      background: var(--dark);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s, width 0.3s;
+      transform-origin: center;
+    }
+
+    .menu-btn span:nth-child(1) { width: 22px; }
+    .menu-btn span:nth-child(2) { width: 16px; }
+    .menu-btn span:nth-child(3) { width: 22px; }
+
+    .menu-btn.open span:nth-child(1) {
+      width: 20px;
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    .menu-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+    .menu-btn.open span:nth-child(3) {
+      width: 20px;
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* ── DROPDOWN MENU ── */
+    .dropdown-menu {
+      display: none;
+      position: fixed;
+      top: 64px;
+      right: 0;
+      width: 220px;
+      background: var(--cream);
+      border-left: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      z-index: 150;
+      padding: 0.5rem 0;
+      box-shadow: -4px 8px 24px rgba(0,0,0,0.07);
+    }
+
+    .dropdown-menu.open { display: block; }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.85rem 1.6rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .dropdown-menu a:last-child { border-bottom: none; }
+
+    .dropdown-menu a:hover {
+      color: var(--accent);
+      background: var(--section);
+    }
+
+    .dropdown-menu a .menu-icon {
+      font-size: 1rem;
+      width: 18px;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 480px) {
+      .menu-btn { display: flex; }
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 2rem 80px;
+      background:
+        linear-gradient(to bottom, rgba(250,248,244,0.6) 0%, rgba(250,248,244,1) 100%),
+        url('https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-inner { max-width: 680px; }
+
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--mid);
+      font-weight: 300;
+      margin-bottom: 2.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2.2rem;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn:hover { background: var(--accent); color: #fff; }
+
+    /* ── SECTIONS ── */
+    section { padding: 90px 2rem; }
+
+    .section-inner { max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 1.4rem;
+    }
+
+    .divider {
+      width: 48px;
+      height: 1.5px;
+      background: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    p { color: var(--mid); font-size: 0.97rem; margin-bottom: 1.1rem; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: grayscale(20%);
+      border: 1px solid var(--rule);
+    }
+
+    .about-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--section);
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--light);
+    }
+
+    .about-photo-placeholder svg { opacity: 0.4; }
+
+    .credentials {
+      margin-top: 2rem;
+      border-top: 1px solid var(--rule);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .credential-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .credential-year {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      min-width: 54px;
+      padding-top: 0.15rem;
+    }
+
+    .credential-text {
+      font-size: 0.88rem;
+      color: var(--mid);
+      margin: 0;
+    }
+
+    /* ── ENSEMBLES ── */
+    #ensembles { background: var(--section); }
+
+    .ensemble-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .ensemble-card {
+      background: var(--cream);
+      border: 1px solid var(--rule);
+      padding: 2rem;
+    }
+
+    .ensemble-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: var(--dark);
+    }
+
+    .ensemble-card .tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+
+    .ensemble-card p { font-size: 0.87rem; margin: 0; }
+
+    /* ── PERFORMANCES ── */
+    #performances { background: var(--cream); }
+
+    .perf-list { margin-top: 2rem; }
+
+    .perf-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.5rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .perf-item:first-child { border-top: 1px solid var(--rule); }
+
+    .perf-date {
+      font-size: 0.78rem;
+      color: var(--light);
+      letter-spacing: 0.05em;
+      padding-top: 0.1rem;
+    }
+
+    .perf-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--dark);
+      margin-bottom: 0.2rem;
+    }
+
+    .perf-detail {
+      font-size: 0.84rem;
+      color: var(--light);
+      margin: 0;
+    }
+
+    /* ── REPERTOIRE ── */
+    #repertoire { background: var(--section); }
+
+    .rep-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .rep-category h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .rep-category ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .rep-category li {
+      font-size: 0.87rem;
+      color: var(--mid);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .rep-category li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--cream); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-item {
+      margin-bottom: 1.6rem;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .contact-value a {
+      color: var(--dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 0.2s;
+    }
+
+    .contact-value a:hover { border-color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.78rem;
+      color: var(--light);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.4rem; }
+      .nav-links a { font-size: 0.75rem; }
+
+      .about-grid,
+      .contact-grid,
+      .rep-cols { grid-template-columns: 1fr; gap: 2rem; }
+
+      .perf-item { grid-template-columns: 80px 1fr; gap: 1rem; }
+
+      section { padding: 70px 1.2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+      .menu-btn { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Matei Mirela-Larisa</a>
+  <ul class="nav-links">
+    <li><a href="#about">Despre</a></li>
+    <li><a href="#ensembles">Ansambluri</a></li>
+    <li><a href="#performances">Spectacole</a></li>
+    <li><a href="#repertoire">Repertoriu</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="menu-btn" id="menuBtn" aria-label="Deschide meniul">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- DROPDOWN MENU -->
+<div class="dropdown-menu" id="dropdownMenu">
+  <a href="#about"        data-target="about"><span class="menu-icon">♩</span> Despre</a>
+  <a href="#ensembles"    data-target="ensembles"><span class="menu-icon">♬</span> Ansambluri</a>
+  <a href="#performances" data-target="performances"><span class="menu-icon">★</span> Spectacole</a>
+  <a href="#repertoire"   data-target="repertoire"><span class="menu-icon">♪</span> Repertoriu</a>
+  <a href="#contact"      data-target="contact"><span class="menu-icon">✉</span> Contact</a>
+</div>
+
+<script>
+  const btn  = document.getElementById('menuBtn');
+  const menu = document.getElementById('dropdownMenu');
+  const NAV_H = 64;
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  });
+
+  document.addEventListener('click', function() {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  });
+
+  menu.querySelectorAll('a[data-target]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const target = document.getElementById(this.dataset.target);
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - NAV_H;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+    });
+  });
+</script>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-label">Dirijor de Cor &nbsp;·&nbsp; România</p>
+    <h1>Matei<br/>Mirela-Larisa</h1>
+    <p class="hero-sub">
+      Pasiune pentru muzica corală. Dedicare față de artă și comunitate.
+    </p>
+    <a class="btn" href="#about">Descoperă profilul</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <!-- Photo placeholder – replace src with a real photo -->
+      <div class="about-photo-placeholder">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#8b6f47" stroke-width="1.2">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">Fotografie</span>
+      </div>
+
+      <div>
+        <p class="section-label">Despre</p>
+        <h2>Biografie</h2>
+        <div class="divider"></div>
+
+        <p>
+          Matei Mirela-Larisa este dirijor de cor cu o carieră dedicată promovării
+          muzicii corale românești și internaționale. Formată la cele mai înalte
+          standarde academice, ea a condus cu pasiune și rigoare ansambluri vocale
+          de toate tipurile — de la coruri de copii la coruri mixte de cameră și
+          coruri simfonice.
+        </p>
+        <p>
+          Activitatea sa îmbină tradiția muzicii corale clasice cu deschiderea spre
+          repertoriul contemporan și muzica sacră românească, aducând pe scenă lucrări
+          de mare complexitate artistică. Prin munca pedagogică și interpretativă,
+          contribuie constant la educația muzicală a tinerelor generații.
+        </p>
+        <p>
+          A colaborat cu orchestre, filarmonici și instituții culturale din România
+          și din Europa, participând la festivaluri internaționale de muzică corală.
+        </p>
+
+        <div class="credentials">
+          <div class="credential-item">
+            <span class="credential-year">2005</span>
+            <p class="credential-text">Licență în Pedagogie Muzicală — Universitatea Națională de Muzică, București</p>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">2007</span>
+            <p class="credential-text">Master în Dirijat Coral — Universitatea Națională de Muzică, București</p>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">2012</span>
+            <p class="credential-text">Curs internațional de dirijat coral — Accademia Musicale Chigiana, Siena</p>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">2018</span>
+            <p class="credential-text">Premiul „Dirijorul Anului" — Festivalul Național de Muzică Corală, Brașov</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ENSEMBLES -->
+<section id="ensembles">
+  <div class="section-inner">
+    <p class="section-label">Ansambluri</p>
+    <h2>Coruri Conduse</h2>
+    <div class="divider"></div>
+    <p>De-a lungul carierei, Matei Mirela-Larisa a fondat și condus mai multe ansambluri
+    corale cu identitate artistică distinctă.</p>
+
+    <div class="ensemble-cards">
+
+      <div class="ensemble-card">
+        <h3>Corul „Armonia"</h3>
+        <p class="tag">Cor mixt de cameră · Cluj-Napoca</p>
+        <p>Ansamblu mixt de 32 de voci, fondat în 2008. Specializat în muzică corală
+        a cappella de epocă și contemporană. Laureat al mai multor competiții naționale
+        și internaționale.</p>
+      </div>
+
+      <div class="ensemble-card">
+        <h3>Corul de Copii „Luminița"</h3>
+        <p class="tag">Cor de copii · Cluj-Napoca</p>
+        <p>Ansamblu vocal de copii cu vârste între 8 și 14 ani, activ din 2010.
+        Promovează folclorul românesc, cântecele pentru copii și piese corale
+        accesibile, cu accent pe educație muzicală.</p>
+      </div>
+
+      <div class="ensemble-card">
+        <h3>Corul „Cantabile"</h3>
+        <p class="tag">Cor mixt · Bistrița</p>
+        <p>Ansamblu vocal-simfonic în colaborare cu Filarmonica de Stat Bistrița.
+        Repertoriu extins: oratorii, messe, cantate și lucrări sacre de anvergură.</p>
+      </div>
+
+      <div class="ensemble-card">
+        <h3>Corul Academic „Vox Dei"</h3>
+        <p class="tag">Cor academic · București</p>
+        <p>Colaborare cu studenți ai Universității Naționale de Muzică. Accent pe
+        literatura corală românească contemporană și pe recuperarea unor lucrări
+        mai puțin cunoscute ale compozitorilor români.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PERFORMANCES -->
+<section id="performances">
+  <div class="section-inner">
+    <p class="section-label">Spectacole &amp; Proiecte</p>
+    <h2>Evenimente Reprezentative</h2>
+    <div class="divider"></div>
+
+    <div class="perf-list">
+
+      <div class="perf-item">
+        <span class="perf-date">Mai 2024</span>
+        <div>
+          <p class="perf-title">Requiem – W. A. Mozart</p>
+          <p class="perf-detail">Filarmonica „Transilvania", Cluj-Napoca · Corul „Armonia" &amp; soliști invitați</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Dec. 2023</span>
+        <div>
+          <p class="perf-title">Concert de Crăciun – „Lumina Colindelor"</p>
+          <p class="perf-detail">Catedrala Ortodoxă, Cluj-Napoca · Corul „Armonia" &amp; Corul de Copii „Luminița"</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Oct. 2023</span>
+        <div>
+          <p class="perf-title">Festivalul Coral Internațional „Musica Mundi"</p>
+          <p class="perf-detail">Brașov · Premiul I la secțiunea Cor Mixt de Cameră</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Apr. 2023</span>
+        <div>
+          <p class="perf-title">Stabat Mater – G. B. Pergolesi</p>
+          <p class="perf-detail">Sala Palatului, București · Gală de muzică sacră</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Nov. 2022</span>
+        <div>
+          <p class="perf-title">Turneul European „Romanian Voices"</p>
+          <p class="perf-detail">Viena · Praga · Bratislava · Corul „Armonia"</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Iun. 2022</span>
+        <div>
+          <p class="perf-title">Concertul Aniversar 100 – George Enescu</p>
+          <p class="perf-detail">Ateneul Român, București · Lucrări corale și simfonice ale compozitorului</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Mar. 2021</span>
+        <div>
+          <p class="perf-title">Concert online „Muzică în Timp de Pandemie"</p>
+          <p class="perf-detail">Transmisiune live · Peste 12.000 de vizionări · Repertoriu a cappella românesc</p>
+        </div>
+      </div>
+
+      <div class="perf-item">
+        <span class="perf-date">Sept. 2019</span>
+        <div>
+          <p class="perf-title">Festivalul „Coruri la Curte" – Sinaia</p>
+          <p class="perf-detail">Concert în curtea Castelului Peleș · Repertoriu romantic și național</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- REPERTOIRE -->
+<section id="repertoire">
+  <div class="section-inner">
+    <p class="section-label">Muzică</p>
+    <h2>Repertoriu</h2>
+    <div class="divider"></div>
+    <p>Repertoriul cuprinde lucrări din toate epocile muzicale, cu o atenție specială
+    acordată muzicii sacre, corale românești și compozitorilor contemporani.</p>
+
+    <div class="rep-cols">
+
+      <div class="rep-category">
+        <h3>Muzică Sacră &amp; Corală Clasică</h3>
+        <ul>
+          <li>W. A. Mozart – Requiem, Missa Brevis</li>
+          <li>J. S. Bach – Magnificat, Mottete</li>
+          <li>G. F. Händel – Messiah (selecții)</li>
+          <li>G. B. Pergolesi – Stabat Mater</li>
+          <li>G. Verdi – Requiem (selecții)</li>
+          <li>G. Fauré – Requiem</li>
+          <li>A. Bruckner – Ave Maria, Motete</li>
+        </ul>
+      </div>
+
+      <div class="rep-category">
+        <h3>Muzică Românească</h3>
+        <ul>
+          <li>George Enescu – Vox Maris, Lucrări corale</li>
+          <li>Paul Constantinescu – Colinde</li>
+          <li>Tiberiu Brediceanu – Cântece populare</li>
+          <li>Nicolae Lungu – Muzică liturgică</li>
+          <li>Doru Popovici – Lucrări corale contemporane</li>
+          <li>Sabin Drăgoi – Opere de cameră</li>
+        </ul>
+      </div>
+
+      <div class="rep-category">
+        <h3>Muzică Romantică &amp; Modernă</h3>
+        <ul>
+          <li>J. Brahms – Liebeslieder Walzer, Motete</li>
+          <li>F. Schubert – Messe, Lieduri aranjate</li>
+          <li>R. Schumann – Lucrări corale</li>
+          <li>B. Britten – A Ceremony of Carols</li>
+          <li>K. Jenkins – The Armed Man</li>
+          <li>E. Whitacre – Lucrări contemporane</li>
+        </ul>
+      </div>
+
+      <div class="rep-category">
+        <h3>Folclor &amp; Colinde</h3>
+        <ul>
+          <li>Colinde tradiționale românești (aranjamente)</li>
+          <li>Folclor transilvănean armonizat</li>
+          <li>Cântece de leagăn și cântece populare</li>
+          <li>Muzică liturgică ortodoxă</li>
+          <li>Lucrări pentru cor de copii</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <p class="section-label">Contact</p>
+        <h2>Colaborări &amp; Invitații</h2>
+        <div class="divider"></div>
+        <p>
+          Sunt disponibilă pentru colaborări cu orchestre, instituții culturale,
+          festivaluri de muzică corală, dar și pentru activități pedagogice și
+          masterclass-uri de dirijat.
+        </p>
+        <p>
+          Invitațiile pentru concerte, proiecte educaționale sau parteneriate
+          artistice sunt binevenite.
+        </p>
+      </div>
+
+      <div>
+        <div class="contact-item">
+          <p class="contact-label">E-mail</p>
+          <p class="contact-value">
+            <a href="mailto:mirela.matei@contact.ro">mirela.matei@contact.ro</a>
+          </p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Telefon</p>
+          <p class="contact-value">
+            <a href="tel:+40700000000">+40 700 000 000</a>
+          </p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Locație</p>
+          <p class="contact-value">Cluj-Napoca, România</p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Afilieri</p>
+          <p class="contact-value">
+            Uniunea Compozitorilor și Muzicologilor din România<br/>
+            Asociația Corală Română
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Matei Mirela-Larisa &nbsp;·&nbsp; Dirijor de Cor &nbsp;·&nbsp; România</p>
+</footer>
+
+</body>
+</html>
